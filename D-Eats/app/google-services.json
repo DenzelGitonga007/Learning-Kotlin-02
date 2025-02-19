@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842823949195",
+    "project_id": "d-eats-b9da2",
+    "storage_bucket": "d-eats-b9da2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842823949195:android:a045584b35e2869ece2d8e",
+        "android_client_info": {
+          "package_name": "com.example.d_eats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb9RYybNAK9imA6JU_xl0JfmezKrQEyiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
