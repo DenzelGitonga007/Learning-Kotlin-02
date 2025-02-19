@@ -5,7 +5,7 @@ import java.util.Date
 import java.util.Locale
 
 data class Note(
-    val id: Int,
+    val id: String,
     val title: String,
     val content: String,
     val date: String = getCurrentDate() // automatically get and save the current date

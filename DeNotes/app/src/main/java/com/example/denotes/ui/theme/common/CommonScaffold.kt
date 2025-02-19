@@ -29,75 +29,58 @@ import com.example.denotes.R
 fun CommonScaffold(
     title: String,
     navController: NavHostController,
+    floatingActionButton: @Composable (() -> Unit)? = null, // ✅ Accept FAB as an optional parameter
     content: @Composable (PaddingValues) -> Unit
 ) {
-    val currentRoute = navController.currentDestination?.route
+    val currentRoute = navController.currentDestination?.route ?: ROUTE_HOME // Handle null case
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Row (
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-//                        Logo
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(id = R.drawable.denotes),
                             contentDescription = "Logo",
-                            modifier = Modifier
-                                .size(34.dp)
-                                .clip(RoundedCornerShape(8.dp))
+                            modifier = Modifier.size(34.dp).clip(RoundedCornerShape(8.dp))
                         )
                         Spacer(modifier = Modifier.width(10.dp))
-
                         Text(title, color = Color.White)
                     }
                 },
                 navigationIcon = {
-                    if (currentRoute != ROUTE_HOME) { // Hide back button on home screen
+                    if (currentRoute != ROUTE_HOME) {
                         IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
-                                tint = Color.White
-                            )
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DeNotes_Theme
-                )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = DeNotes_Theme)
             )
         },
         bottomBar = {
-            if (currentRoute != ROUTE_HOME) { // Hide bottom bar if on home screen
-                BottomAppBar(
-                    containerColor = DeNotes_Theme,
-                    contentColor = Color.White
-                ) {
+            if (currentRoute != ROUTE_HOME) {
+                BottomAppBar(containerColor = DeNotes_Theme, contentColor = Color.White) {
                     NavigationBar(containerColor = DeNotes_Theme) {
-                        val navItems = listOf(
-                            BottomNavItem("Home", ROUTE_HOME, Icons.Default.Home)
-                        )
+                        val navItems = listOf(BottomNavItem("Home", ROUTE_HOME, Icons.Default.Home))
                         navItems.forEach { item ->
-                            if (item.route != ROUTE_HOME || currentRoute != ROUTE_HOME) {
-                                NavigationBarItem(
-                                    icon = { Icon(item.icon, contentDescription = item.label, tint = Color.White) },
-                                    label = { Text(item.label, color = Color.White) },
-                                    selected = currentRoute == item.route,
-                                    onClick = {
-                                        navController.navigate(item.route) {
-                                            popUpTo(navController.graph.startDestinationId)
-                                            launchSingleTop = true
-                                        }
+                            NavigationBarItem(
+                                icon = { Icon(item.icon, contentDescription = item.label, tint = Color.White) },
+                                label = { Text(item.label, color = Color.White) },
+                                selected = currentRoute == item.route,
+                                onClick = {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.startDestinationId)
+                                        launchSingleTop = true
                                     }
-                                )
-                            }
+                                }
+                            )
                         }
                     }
                 }
             }
-        }
+        },
+        floatingActionButton = floatingActionButton ?: {} // Provide an empty lambda when null
     ) { innerPadding ->
         content(innerPadding)
     }
