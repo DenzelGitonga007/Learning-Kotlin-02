@@ -8,9 +8,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.denotes.models.Note
@@ -38,27 +40,40 @@ fun AddNoteScreen(navController: NavHostController) {
                 .padding(16.dp)
         ) {
             // Title label
-            Text(text = "Title", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "Title",
+                fontSize = 24.sp,
+                )
 
             // The text input field for title
-            BasicTextField(
+            OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
+                placeholder = { Text(text="Title of the note") },
+//                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
+//                textStyle = TextStyle.Default,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 8.dp),
+
+//                label = { Text(text="Title") }
             )
 
+            Spacer(modifier = Modifier.height(14.dp))
+
             // Content label
-            Text(text = "Content", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "Content",
+                fontSize = 24.sp,
+                )
 
             // Text field for entering note content
-            BasicTextField(
+            OutlinedTextField(
                 value = content,
                 onValueChange = { content = it },
-                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
+                placeholder = { Text(text = "Write your note here") },
+//                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions { /* Hide Keyboard */ },
                 modifier = Modifier
