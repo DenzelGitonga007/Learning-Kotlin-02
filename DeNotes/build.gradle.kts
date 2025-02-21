@@ -5,4 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 //    For room db-- kapt
 //    id("kotlin-kapt")
+//    kotlin("jvm") version "1.9.0" // Example Kotlin version
+
 }
