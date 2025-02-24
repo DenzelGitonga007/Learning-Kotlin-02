@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.denotes.ui.theme.screens.AddNoteScreen
+import com.example.denotes.ui.theme.screens.EditNoteScreen
 import com.example.denotes.ui.theme.screens.home.HomeScreen
 
 @Composable
@@ -31,5 +32,15 @@ fun AppNavHost(
         composable(ROUTE_ADD_NOTE) {
             AddNoteScreen(navController = navController)
         }
+
+//        Edit note screen
+        composable("edit_note/{noteId}") { backStackEntry ->
+            val noteId = backStackEntry.arguments?.getString("noteId")?.toIntOrNull() ?: return@composable
+            EditNoteScreen(navController = navController, noteId = noteId)
+        }
+
+
+
+
     }
 }
