@@ -65,7 +65,7 @@ fun HomeScreen(navController: NavHostController, viewModel: NoteViewModel = view
 
 fun getRandomColor(index: Int): Color {
     val colors = listOf(
-        Color(0xFFFFEB3B), // Yellow
+        Color(0xFFB3C02E), // Yellow
         Color(0xFF8BC34A), // Green
         Color(0xFFFF5722), // Orange
         Color(0xFF03A9F4), // Blue
