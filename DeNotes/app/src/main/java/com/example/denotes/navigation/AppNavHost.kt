@@ -36,8 +36,10 @@ fun AppNavHost(
 //        Edit note screen
         composable("edit_note/{noteId}") { backStackEntry ->
             val noteId = backStackEntry.arguments?.getString("noteId")?.toIntOrNull() ?: return@composable
-            EditNoteScreen(navController = navController, noteId = noteId)
+            EditNoteScreen(navController, noteId)
         }
+
+
 
 
 

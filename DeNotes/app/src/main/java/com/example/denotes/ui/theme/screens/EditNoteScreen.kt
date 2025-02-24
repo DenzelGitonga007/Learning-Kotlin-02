@@ -20,87 +20,63 @@ import com.example.denotes.ui.viewmodel.NoteViewModel
 
 @Composable
 fun EditNoteScreen(navController: NavHostController, noteId: Int, viewModel: NoteViewModel = viewModel()) {
-    // Collect all notes from ViewModel
     val allNotes by viewModel.allNotes.collectAsState(initial = emptyList())
+    val note = allNotes.find { it.id.toInt() == noteId } ?: return
 
-    // Find the note using the noteId passed from HomeScreen
-    val note = allNotes.find { it.id.toInt() == noteId } ?: return // Exit if note is not found
-
-    // Remember state for editing note fields
     var title by remember { mutableStateOf(note.title) }
     var content by remember { mutableStateOf(note.content) }
 
-    // Use CommonScaffold for consistent UI
     CommonScaffold(
         title = "Edit Note",
         navController = navController,
-//        floatingActionButton = {
-//            FloatingActionButton(onClick = {
-//                // Save the updated note to the database
-//                viewModel.insert(Note(id = note.id, title = title, content = content))
-//                navController.popBackStack() // Navigate back to HomeScreen after saving
-//            }) {
-//                Text("Save") // Floating save button
-//            }
-//        }
-    ) { padding ->
+        deleteNoteAction = {
+            viewModel.delete(note)
+            navController.popBackStack()
+        }
+
+
+    )
+     { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            // Input field for note title
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
                 textStyle = LocalTextStyle.current.copy(fontSize = 24.sp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 label = { Text("Title") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
             )
             Spacer(modifier = Modifier.height(14.dp))
 
-            // Content input
             Text(text = "Content", fontSize = 24.sp)
 
-            // Input field for note content
             OutlinedTextField(
                 value = content,
                 onValueChange = { content = it },
                 textStyle = LocalTextStyle.current.copy(fontSize = 16.sp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default),
                 label = { Text("Content") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(500.dp).padding(vertical = 8.dp)
+                modifier = Modifier.fillMaxWidth().height(500.dp).padding(vertical = 8.dp)
             )
             Spacer(modifier = Modifier.height(14.dp))
 
             Button(
                 onClick = {
                     if (title.isNotBlank() && content.isNotBlank()) {
-                        val newNote = Note(
-                            title = title,
-                            content = content,
-//                            color = selectedColor.value.toLong() // Store color as Long
-                        )
-//                        Edit/update
                         viewModel.insert(Note(id = note.id, title = title, content = content))
-                        navController.popBackStack() // Navigate back to HomeScreen after saving
+                        navController.popBackStack()
                     }
                 },
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 enabled = title.isNotBlank() && content.isNotBlank()
             ) {
                 Text("Update Note", fontSize = 22.sp)
             }
-
-
-
         }
     }
 }
