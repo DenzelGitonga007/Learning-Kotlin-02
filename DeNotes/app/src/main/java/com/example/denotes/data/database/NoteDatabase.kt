@@ -25,7 +25,9 @@ abstract class NoteDatabase : RoomDatabase() {
                     context.applicationContext,
                     NoteDatabase::class.java,
                     "note_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration() // This will reset the database if version changes
+                    .build()
                 INSTANCE = instance
                 instance
             }

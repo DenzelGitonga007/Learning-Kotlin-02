@@ -58,6 +58,9 @@ dependencies {
     ksp(libs.androidx.room.compiler) // Replace kapt with ksp
     implementation(libs.androidx.room.ktx)
 
+//    Grid layout on home screen
+    implementation(libs.androidx.foundation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,4 +68,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }
+
+

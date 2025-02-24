@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 //Define a table in the room db called "notes"
 @Entity(tableName = "notes")
 data class Note(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L, // autogenerate id type
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val title: String,
     val content: String,
-    val timestamp: Long = System.currentTimeMillis() // save when not is created
+    val timestamp: Long = System.currentTimeMillis(),
+//    val color: Long // Ensure it matches the migration type
 )
 
 
