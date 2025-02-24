@@ -90,7 +90,7 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel = v
                     .fillMaxWidth(),
                 enabled = title.isNotBlank() && content.isNotBlank()
             ) {
-                Text("Save Note", fontSize = 22.sp)
+                Text("Add Note", fontSize = 22.sp)
             }
         }
     }
