@@ -1,5 +1,6 @@
 package com.example.denotes.ui.theme.screens.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.*
@@ -22,27 +23,33 @@ import com.example.denotes.navigation.ROUTE_ADD_NOTE
 import com.example.denotes.navigation.ROUTE_EDIT_NOTE
 import com.example.denotes.ui.theme.common.CommonScaffold
 import com.example.denotes.ui.viewmodel.NoteViewModel
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.*
+import com.example.denotes.data.models.Note
 
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(navController: NavHostController, viewModel: NoteViewModel = viewModel()) {
-    // Collect all notes from the ViewModel (Live data flow)
     val notes by viewModel.allNotes.collectAsState(initial = emptyList())
 
-    // Using a common scaffold layout
+    // Track selected note for long press actions
+    var selectedNote by remember { mutableStateOf<Note?>(null) }
+    var showOptionsDialog by remember { mutableStateOf(false) }
+
     CommonScaffold(
         title = "DeNotes",
         navController = navController,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(ROUTE_ADD_NOTE) // Navigate to the Add Note screen
-            }) {
+            FloatingActionButton(onClick = { navController.navigate(ROUTE_ADD_NOTE) }) {
                 Icon(Icons.Default.Add, contentDescription = "Add Note")
             }
         }
     ) { padding ->
-        // Display notes in a staggered grid format
         LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Fixed(2), // Set a 2-column layout
+            columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
@@ -50,40 +57,87 @@ fun HomeScreen(navController: NavHostController, viewModel: NoteViewModel = view
             verticalItemSpacing = 8.dp,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Iterate through each note and display it inside a card
             items(notes) { note ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            // Navigate to the EditNoteScreen when a note is clicked
-                            navController.navigate("edit_note/${note.id}")
-//                            navController.navigate(ROUTE_EDIT_NOTE)
-                        },
+                        .combinedClickable(
+                            onClick = {
+                                navController.navigate("edit_note/${note.id}") // Normal tap = Edit
+                            },
+                            onLongClick = {
+                                selectedNote = note
+                                showOptionsDialog = true
+                            }
+                        ),
                     colors = CardDefaults.cardColors(containerColor = getColor(notes.indexOf(note)))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text(text = note.title, fontSize = 24.sp) // Display note title
+                        Text(text = note.title, fontSize = 24.sp)
                         Spacer(modifier = Modifier.height(6.dp))
-                        Text(text = note.content, fontSize = 16.sp) // Display note content
+                        Text(text = note.content, fontSize = 16.sp)
                     }
                 }
             }
         }
     }
+
+    // Show the dialog when a note is long-pressed
+    if (showOptionsDialog && selectedNote != null) {
+        AlertDialog(
+            onDismissRequest = { showOptionsDialog = false },
+            title = { Text("Note Options") },
+            text = { Text("What do you want to do with this note?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    navController.navigate("edit_note/${selectedNote!!.id}")
+                    showOptionsDialog = false
+                }) {
+                    Text("Edit", color = Color.White)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    viewModel.delete(selectedNote!!)
+                    showOptionsDialog = false
+                }) {
+                    Text("Delete", color = Color.White)
+                }
+            }
+        )
+    }
 }
+
+
+
 
 // Function to cycle through predefined colors for notes
 fun getColor(index: Int): Color {
+//    val colors = listOf(
+//        Color(0xFFE12162), // Change this to pink
+//        Color(0xFF20B2AA), // Light Sea Green
+//        Color(0xFFCCAF14), // Gold
+//        Color(0xFF6495ED), // Cornflower Blue
+
+
+
+//    )
     val colors = listOf(
-        Color(0xFFE12162), // Change this to pink
-        Color(0xFF20B2AA), // Light Sea Green
-        Color(0xFFCCAF14), // Gold
-        Color(0xFF6495ED), // Cornflower Blue
         Color(0xFFDC143C), // Crimson
         Color(0xFF32CD32), // Lime Green
-        Color(0xFF8A2BE2)  // Blue Violet
+        Color(0xFF8A2BE2),  // Blue Violet
+        Color(0xFFFFA07A), // Light Salmon (Warm & Soft)
+        Color(0xFF7B68EE), // Medium Slate Blue (Vibrant & Deep)
+        Color(0xFF00CED1), // Dark Turquoise (Refreshing & Bold)
+        Color(0xFFFFD700), // Gold (Bright & Luxurious)
+        Color(0xFF48D1CC), // Medium Turquoise (Calm & Modern)
+        Color(0xFFEE82EE), // Violet (Playful & Elegant)
+        Color(0xFF3CB371), // Medium Sea Green (Lush & Natural)
+        Color(0xFFFF6347), // Tomato (Bold & Energizing)
+        Color(0xFF4682B4), // Steel Blue (Sophisticated & Cool)
+        Color(0xFFF08080)  // Light Coral (Soft & Warm)
     )
+
     return colors[index % colors.size]
 }
 
