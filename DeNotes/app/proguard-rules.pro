@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#Reduce space
+-keep class com.example.** { *; }   # Keep your classes
+-dontwarn android.**

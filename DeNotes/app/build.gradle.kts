@@ -8,11 +8,11 @@ plugins {
 
 
 android {
-    namespace = "com.example.denotes"
+    namespace = "com.denzel.denotes"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.denotes"
+        applicationId = "com.denzel.denotes"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
