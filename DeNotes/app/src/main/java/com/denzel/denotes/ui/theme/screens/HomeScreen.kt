@@ -1,6 +1,7 @@
 package com.denzel.denotes.ui.theme.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.*
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -28,6 +29,9 @@ import androidx.compose.runtime.*
 import com.denzel.denotes.data.models.Note
 //import com.denzel.denotes.data.models.Note
 import com.denzel.denotes.data.viewmodel.NoteViewModel
+import com.denzel.denotes.ui.theme.Brown80
+import com.denzel.denotes.ui.theme.DeNotes_Theme
+import com.denzel.denotes.ui.theme.OrangeBrown40
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,6 +57,8 @@ fun HomeScreen(navController: NavHostController, viewModel: NoteViewModel = view
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+//                .background(OrangeBrown40)
+                .background(Brown80)
                 .padding(8.dp),
             verticalItemSpacing = 8.dp,
             horizontalArrangement = Arrangement.spacedBy(8.dp)

@@ -1,7 +1,9 @@
 package com.denzel.denotes.ui.theme.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -40,6 +42,7 @@ fun EditNoteScreen(navController: NavHostController, noteId: Int, viewModel: Not
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             OutlinedTextField(
                 value = title,

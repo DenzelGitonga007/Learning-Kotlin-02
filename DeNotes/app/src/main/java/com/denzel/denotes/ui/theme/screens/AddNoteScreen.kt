@@ -1,8 +1,11 @@
 package com.denzel.denotes.ui.theme.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -20,6 +23,7 @@ import com.denzel.denotes.data.models.Note
 import com.denzel.denotes.ui.theme.DeNotesTheme
 //import com.denzel.denotes.ui.viewmodel.NoteViewModel
 import com.denzel.denotes.data.viewmodel.NoteViewModel
+import com.denzel.denotes.ui.theme.Brown80
 
 
 @Composable
@@ -36,7 +40,9 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel = v
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+//                .background(Brown80)
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
 
 //            Title input
@@ -91,6 +97,8 @@ fun AddNoteScreen(navController: NavHostController, viewModel: NoteViewModel = v
             ) {
                 Text("Add Note", fontSize = 22.sp)
             }
+
+//            End of button
         }
     }
 }
